@@ -17,16 +17,19 @@ const { createProgressiveTraceGenerator } = xydata
 const chart = lightningChart({
             resourcesBaseUrl: new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'resources/',
         }).ChartXY({
+    legend: { visible: false },
     theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,
 })
 
 // Create line series optimized for regular progressive X data.
 const series = chart
-    .addPointLineAreaSeries({
-        // pattern: 'ProgressiveX' => Each consecutive data point has increased X coordinate.
-        dataPattern: 'ProgressiveX',
+    .addLineSeries({
+        schema: {
+            x: { pattern: 'progressive' },
+            y: { pattern: null },
+        },
     })
-    .setAreaFillStyle(emptyFill)
+    .setMaxSampleCount(1_000_000)
 
 // Generate traced points stream using 'xydata'-library.
 chart.setTitle('Generating test data...')
