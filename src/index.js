@@ -28,6 +28,7 @@ const series = chart
             x: { pattern: 'progressive' },
             y: { pattern: null },
         },
+        automaticColorIndex: 2,
     })
     .setMaxSampleCount(1_000_000)
 
